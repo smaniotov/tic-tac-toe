@@ -54,17 +54,18 @@ const App = () => {
 
   const renderRow = useCallback(
     (row: number[]) => (
-      <div style={{ display: 'flex' }}>
+      <CenterFlexDiv>
         {row.map((rowNumber: number) => {
           const currentCellPlayer = moveList.find(
             ({ position }) => position === rowNumber
           )?.player;
           const isChecked = Boolean(currentCellPlayer);
+          const id = `${rowNumber}-cell`;
 
           return (
-            <Cell htmlFor={`${rowNumber}-cell`}>
+            <Cell htmlFor={id}>
               <input
-                id={`${rowNumber}-cell`}
+                id={id}
                 style={{ display: 'none' }}
                 type="checkbox"
                 checked={isChecked}
@@ -75,7 +76,7 @@ const App = () => {
             </Cell>
           );
         })}
-      </div>
+      </CenterFlexDiv>
     ),
     [moveList, addMove]
   );
