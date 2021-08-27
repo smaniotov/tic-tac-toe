@@ -1,5 +1,5 @@
 import { chunk } from 'lodash';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import useTicTacToe, { TicTacToeState } from './useTicTacToe';
 import 'skeleton-css/css/skeleton.css';
@@ -81,6 +81,17 @@ const App = () => {
     [moveList, addMove]
   );
 
+  const overlayLabel = useMemo(() => {
+    switch (currentState) {
+      case TicTacToeState.Draw:
+        return 'Draw';
+      case TicTacToeState.HasWinner:
+        return `Winner: ${winner}`;
+      default:
+        return null;
+    }
+  }, [currentState, winner]);
+
   return (
     <main>
       <TitleContainer>Tic Tac Toe</TitleContainer>
@@ -93,8 +104,8 @@ const App = () => {
         </button>
       </CenterFlexDiv>
       <CenterFlexDiv style={{ position: 'relative', marginTop: 16 }}>
-        {currentState === TicTacToeState.HasWinner && (
-          <EndGameOverlay>Winner: {winner}</EndGameOverlay>
+        {currentState !== TicTacToeState.OnGoing && (
+          <EndGameOverlay>{overlayLabel}</EndGameOverlay>
         )}
         <div>
           {renderRow(firstRow)}
